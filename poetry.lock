@@ -27,6 +27,14 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-admin-tailwind"
+version = "0.0.16"
+description = "Django Admin Tailwind"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "sqlparse"
 version = "0.4.3"
 description = "A non-validating SQL parser."
@@ -45,7 +53,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "7486e6e78b16c449d5782a52dd7496c129aeae9bb68b17623480bd8c33685993"
+content-hash = "50260ed29194d99c5043ff6a4332effff8e472b4fb06a2a7a01a703b66102be4"
 
 [metadata.files]
 asgiref = [
@@ -55,6 +63,10 @@ asgiref = [
 Django = [
     {file = "Django-4.1.2-py3-none-any.whl", hash = "sha256:26dc24f99c8956374a054bcbf58aab8dc0cad2e6ac82b0fe036b752c00eee793"},
     {file = "Django-4.1.2.tar.gz", hash = "sha256:b8d843714810ab88d59344507d4447be8b2cf12a49031363b6eed9f1b9b2280f"},
+]
+django-admin-tailwind = [
+    {file = "django-admin-tailwind-0.0.16.tar.gz", hash = "sha256:7e38f9494c112092a62771c9089fc449934bc1700a31ca056012f268b79daabe"},
+    {file = "django_admin_tailwind-0.0.16-py3-none-any.whl", hash = "sha256:a39cca9e64579e32b163e38b71dba45ae9052e2c3019548763f9b3afb475ef2d"},
 ]
 sqlparse = [
     {file = "sqlparse-0.4.3-py3-none-any.whl", hash = "sha256:0323c0ec29cd52bceabc1b4d9d579e311f3e4961b98d174201d5622a23b85e34"},

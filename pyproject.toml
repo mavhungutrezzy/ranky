@@ -11,6 +11,7 @@ python = "^3.10"
 
 [tool.poetry.group.dev.dependencies]
 Django = "^4.1.2"
+django-admin-tailwind = "^0.0.16"
 
 [build-system]
 requires = ["poetry-core"]
