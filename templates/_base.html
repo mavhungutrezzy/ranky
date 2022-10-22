@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html>
@@ -12,14 +13,25 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <link href="https://unpkg.com/@webpixels/css/dist/index.css" rel="stylesheet">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="{% static 'css/card.css' %}">
     </head>
     <body>
 
         {% block content %}
         {% endblock %}
-       
-        
+
+    <!-- FOOTER STARTS HERE -->
+    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-light text-white-50 fixed-bottom border-top">
+        <div class="container text-center">
+            <small>Copyright &copy; Mavhungu Adivhaho</small>
+            <small>
+                <a href="https://github.com/mavhungutrezzy" class="text-white-50">Github</a>
+                <a href="https://linkedin/in/adivhaho-mavhungu" class="text-white-50">LinkedIn</a>
+                <a href="https://instagram.com/adivhaho.dev" class="text-white-50">Instagram</a>
+            </small>
+        </div>
+    </footer>
+    <!-- FOOTER END HERE -->
         <script src="" async defer></script>
     </body>
 </html>
