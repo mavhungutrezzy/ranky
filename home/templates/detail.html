@@ -1,0 +1,126 @@
+{% extends '_base.html' %}
+{% block content %}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-0 py-3">
+    <div class="container-xl">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" class="h-8" alt="...">
+        </a>
+        <!-- Navbar toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <!-- Nav -->
+            <div class="navbar-nav mx-lg-auto">
+                <a class="nav-item nav-link active" href="#" aria-current="page"> Restaurants </a>
+                <a class="nav-item nav-link" href="#"> Top picks </a>
+                <a class="nav-item nav-link" href="#"> Categories </a>
+            </div>
+            <!-- Right navigation -->
+            {% if user.is_authenticated %}
+                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Logout </a>
+                </div>
+            {% else %}
+                <div class="navbar-nav ms-lg-4">
+                    <a class="nav-item nav-link" href="#"> Sign in </a>
+                </div>
+                <!-- Action -->
+                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Register </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+    
+
+<!-- Container starts here -->
+<div class="container mt-5">
+    <!-- First row -->
+    <div class="row mb-10">
+        <!-- First column -->
+        <div class="col-sm">
+            <img class="img-responsive" src="https://bit.ly/3CUf0rL">
+        </div>
+        <!-- First column end -->
+
+        <!-- Second column -->
+        <div class="col-sm">
+            <h3 class="text-primary mb-3"> Ramen Grannies </h3>
+            <p class="text-black mb-3">
+                <span class="text-primary">Inspection Description:</span>
+                Ramen is a Japanese noodle dish. It consists of Chinese-style wheat noodles served in a broth; 
+                common flavors are soy sauce and miso, with typical toppings including sliced pork, nori, menma, and scallions. Ramen has its roots in Chinese noodle dishes. Wikipedia
+            </p>
+            <p class="text-black mb-3">
+                <span class="text-primary">Address:</span> 1234 Main Street, San Francisco, CA
+            </p>
+            <p class="text-black mb-3">
+                <span class="text-primary">Inspection Date:</span> 01/01/2021
+            </p>
+            <p class="text-black mb-3">
+                <span class="text-primary">Inspection Type:</span> New Ownership
+            <p class="text-black mb-3">
+                <span class="text-primary">Phone:</span> 123-456-7890
+            </p>
+            <p class="text-black mb-3">
+                <span class="text-primary">Risk Category:</span> 
+                {% if risk_category == 'High Risk' %}
+                    <span class="badge bg-danger">High Risk</span>
+                {% elif risk_category == 'Moderate Risk' %}
+                    <span class="badge bg-warning">Moderate Risk</span>
+                {% else %}
+                    <span class="badge bg-success">Low Risk</span>
+                {% endif %}
+            </p>
+            <p class="text-black mb-3">
+                <span class="text-primary">Inspection Score:</span>
+                {% if inspection_score >= 80 %}
+                    <span class="badge bg-success">{{ inspection_score }}</span>
+                {% elif inspection_score >= 60 and inspection_score <= 80 %}
+                    <span class="badge bg-warning">{{ inspection_score }}</span>
+                {% else %}
+                    <span class="badge bg-danger">{{ inspection_score }}</span>
+                {% endif %}
+                <span class="badge bg-primary">90</span>
+        </div>
+        <!-- Second column end -->
+    </div>
+    <!-- First row end -->
+
+    <!-- Second row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header mb-5">More places around here</h3>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+            <div class="card " style="width: 250px">
+                <a href="">
+                    <img class="card-img-top" style="height: 200px; object-fit:cover;" src="https://bit.ly/3CUf0rL" alt="">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title mb-1">
+                        <a href=""> Kaisen Don </a>  
+                    </h5>
+                    <p class="card-text">
+                        <span class="text-primary">Score:</span> 
+                        <span class="badge bg-success">90</span>
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-truncate">
+                    <span class="badge rounded-pill bg-tertiary">
+                        #eggroll #dinner #chinese
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Second row end -->
+</div>
+<!-- Container end here-->
+{% endblock %}
