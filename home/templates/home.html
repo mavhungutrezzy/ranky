@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load static %}
 {% block content %}
 
 
@@ -23,7 +24,7 @@
             <!-- Right navigation -->
             {% if user.is_authenticated %}
                 <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Logout </a>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-primary w-full w-lg-auto"> Logout </a>
                 </div>
             {% else %}
                 <div class="navbar-nav ms-lg-4">
@@ -38,12 +39,12 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="margin-bottom: 80px">
 
     <!--SEARCH BOX STARTS HERE -->
-    <form>
+    <form action="" method="GET">
         <div class="input-group mb-5">
-            <input type="text" class="form-control" placeholder="Search restaurants...">
+            <input type="text" class="form-control" placeholder="Search for any store nearby..">
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="bi bi-search"></i>
             </button>
@@ -51,31 +52,81 @@
     </form>
     <!--SEARCH BOX END HERE -->
 
+    {% if search_term %}
+        <p class="card-text">
+            <span class="text-primary">Searching for:</span> 
+            <span class="badge bg-success">{{ search_term }}</span>
+        </p>
+    {% else %}
+    <p class="card-text mb-5">
+        <span class="badge rounded-pill text-black">
+            Showing 50 of {{ len }} food places
+        </span>
+    </p>
+    {% endif %}
+
     
     <!--CARD ITERARION STARTS HERE -->
-    <div class="row">
-        <div class="col-lg-4 pb-4" id="recipe-card">
-            <div class="card " style="width: 250px">
-                <a href="{% url 'detail' %}">
-                    <img class="card-img-top" style="height: 200px; object-fit:cover;" src="https://bit.ly/3CUf0rL" alt="">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title mb-1">
-                        <a href=""> Kaisen Don </a>  
-                    </h5>
-                    <p class="card-text">
-                        <span class="text-primary">Score:</span> 
-                        <span class="badge bg-success">90</span>
-                    </p>
-                </div>
-                <div class="card-footer text-muted text-truncate">
-                    <span class="badge rounded-pill bg-tertiary">
-                        #eggroll #dinner #chinese
-                    </span>
+    <div class="row infinite-container">
+        {% for food_place in food_places %}
+            <div class="col-lg-3 pb-4 infinite-item">
+                <div class="card mb-5" style="width: 250px">
+                    <a href="{% url 'detail' %}">
+                        <img class="card-img-top" style="height: 200px; object-fit:cover;" src="{{ photos|random }}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1 text-truncate" >
+                            <a href=""> {{ food_place.business_name }} </a>  
+                        </h5>
+                        <p class="card-text">
+                            <span class="text-primary">Score:</span> 
+                            {% if food_place.inspection_score > 80 %}
+                                <span class="badge bg-success">{{ food_place.inspection_score }}</span>
+                            {% elif food_place.inspection_score > 60  and food_place.inspection_score < 80 %}
+                                <span class="badge bg-danger">{{ food_place.inspection_score }}</span>
+                            {% else %}
+                                <span class="badge bg-warning">{{ food_place.inspection_score }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted text-truncate">
+                        <span class="badge rounded-pill bg-tertiary">
+                            #{{ food_place.risk_category}}
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
     <!--CARD ITERARION END HERE -->
 </div>
+<div class="d-flex justify-content-center" style="bottom:80px; position: relative;">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+        {% if food_places.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ food_places.previous_page_number }}">
+            <i class="bi bi-chevron-left"></i>
+            </a>
+        </li>
+        {% endif %}
+        {% for i in food_places.paginator.page_range %}
+            {% if food_places.number == i %}
+                <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if food_places.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ food_places.next_page_number }}">
+            <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+        {% endif %}
+        </ul>
+    </nav>
+</div>
+    <script src="{% static 'js/scroll.js' %}"></script>
+
 {% endblock %}

@@ -98,27 +98,29 @@
         <div class="col-lg-12">
             <h3 class="page-header mb-5">More places around here</h3>
         </div>
+        {% for food_place in food_places %}
         <div class="col-sm-3 col-xs-6">
             <div class="card " style="width: 250px">
                 <a href="">
-                    <img class="card-img-top" style="height: 200px; object-fit:cover;" src="https://bit.ly/3CUf0rL" alt="">
+                    <img class="card-img-top" style="height: 200px; object-fit:cover;" src="{{ photos|random }}" alt="">
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title mb-1">
-                        <a href=""> Kaisen Don </a>  
+                    <h5 class="card-title mb-1 text-truncate">
+                        <a href=""> {{ food_place.business_name }} </a>  
                     </h5>
                     <p class="card-text">
                         <span class="text-primary">Score:</span> 
-                        <span class="badge bg-success">90</span>
+                        <span class="badge bg-success"> {{ food_place.inspection_score }} </span>
                     </p>
                 </div>
                 <div class="card-footer text-muted text-truncate">
                     <span class="badge rounded-pill bg-tertiary">
-                        #eggroll #dinner #chinese
+                        #{{ food_place.risk_category}}
                     </span>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
     <!-- Second row end -->
 </div>
