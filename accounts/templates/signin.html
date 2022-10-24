@@ -10,6 +10,14 @@
                 <div class="col-lg-10 col-md-9 col-xl-7 mx-auto">
                     <div class="text-center mb-12">
                     </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-warning alert-dismissible fade show mb-3" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close text-xs text-success" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <form method="POST">
                         {% csrf_token %}
                         <div class="mb-3">
@@ -18,7 +26,7 @@
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-envelope"></i>
                                 </span>
-                                <input required type="email" class="form-control" placeholder="email@example.com" aria-label="email@example.com" aria-describedby="">
+                                <input name="email" required type="email" class="form-control" placeholder="email@example.com" aria-label="email@example.com" aria-describedby="">
                             </div>
                             <span class="mt-2 valid-feedback">Looks good!</span>
                         </div>
@@ -28,7 +36,7 @@
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-lock"></i>
                                 </span>
-                                <input required type="password" class="form-control" placeholder="password" aria-label="password" aria-describedby="" autocomplete="password">
+                                <input name="password" required type="password" class="form-control" placeholder="password" aria-label="password" aria-describedby="" autocomplete="password">
                             </div>
                             <span class="mt-2 valid-feedback">Looks good!</span>
                         </div>

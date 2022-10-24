@@ -1,20 +1,20 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout as signout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 
 def signin(request):
     if request.method != "POST":
         return render(request, "signin.html")
-    username = request.POST["username"]
+    username = request.POST["email"]
     password = request.POST["password"]
     user = authenticate(username=username, password=password)
     if user is None:
-        return render(
-            request, "login.html", {"error": "Username or password is incorrect."}
-        )
+        messages.error(request, "Invalid username and/or password"),
+        return render(request, "signin.html")
     login(request, user)
     return redirect("home")
 
@@ -37,14 +37,14 @@ def register(request):
             password=password,
         )
     except IntegrityError:
-        return render(
-            request, "register.html", {"error": "Email address is already in use."}
-        )
+        messages.error(request, "User already exists"),
+
+        return render(request, "register.html")
     login(request, user)
     return redirect("home")
 
 
 @login_required
 def logout(request):
-    logout(request)
+    signout(request)
     return redirect("home")

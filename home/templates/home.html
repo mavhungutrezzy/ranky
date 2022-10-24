@@ -28,11 +28,11 @@
                 </div>
             {% else %}
                 <div class="navbar-nav ms-lg-4">
-                    <a class="nav-item nav-link" href="#"> Sign in </a>
+                    <a class="nav-item nav-link" href="{% url 'signin' %}"> Sign in </a>
                 </div>
                 <!-- Action -->
                 <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Register </a>
+                    <a href="{% url 'register' %}" class="btn btn-sm btn-primary w-full w-lg-auto"> Register </a>
                 </div>
             {% endif %}
         </div>
@@ -42,9 +42,10 @@
 <div class="container" style="margin-bottom: 80px">
 
     <!--SEARCH BOX STARTS HERE -->
-    <form action="" method="GET">
+    <form action="{% url 'home' %}" method="POST">
+        {% csrf_token %}
         <div class="input-group mb-5">
-            <input type="text" class="form-control" placeholder="Search for any store nearby..">
+            <input name="search_term" type="text" class="form-control" placeholder="Search for any store nearby..">
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="bi bi-search"></i>
             </button>
@@ -53,9 +54,10 @@
     <!--SEARCH BOX END HERE -->
 
     {% if search_term %}
-        <p class="card-text">
-            <span class="text-primary">Searching for:</span> 
-            <span class="badge bg-success">{{ search_term }}</span>
+        <p class="card-text mb-5">
+            <span class="badge rounded-pill text-black">
+                Showing 2 of 100 results for "{{ search_term }}"
+            </span>
         </p>
     {% else %}
     <p class="card-text mb-5">
