@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import FoodPlace, Comment
 
-# Register your models here.
+admin.site.register(FoodPlace)
+admin.site.register(Comment)
+

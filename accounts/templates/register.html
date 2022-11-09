@@ -3,6 +3,8 @@
 {% block content %}
 
 
+{% include 'header.html' %}
+
 <div class="px-5 py-5 p-lg-0">
     <div class="d-flex justify-content-center">
         <div class="col-12 col-md-9 col-lg-7 min-h-lg-screen d-flex flex-column justify-content-center py-lg-16 px-lg-20 position-relative">
@@ -21,19 +23,23 @@
                     {% endif %}
                     <form method="POST" action="">
                         {% csrf_token %}
-                        <div class="row g-3 mb-3">
+                        <div class="row g-3 mb-2">
                             <div class="col-sm">
                                 <label class="form-label" for="email">First name</label>
-                                <input name="first-name" required type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <div class="input-group input-group-sm position-relative">
+                                    <input name="first-name" required type="text" class="form-control" placeholder="John" aria-label="First name">
+                                </div>
                             </div>
                             <div class="col-sm">
                                 <label class="form-label" for="email">Last name</label>
-                                <input name="last-name" required type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                                <div class="input-group input-group-sm position-relative">
+                                    <input name="last-name" required type="text" class="form-control" placeholder="Doe" aria-label="First name">
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="form-label" for="email">Email</label>
-                            <div class="input-group position-relative">
+                            <div class="input-group input-group-sm position-relative">
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-envelope"></i>
                                 </span>
@@ -41,9 +47,9 @@
                             </div>
                             <span class="mt-2 valid-feedback">Looks good!</span>
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-2">
                             <label class="form-label" for="email">Password</label>
-                            <div class="input-group position-relative">
+                            <div class="input-group input-group-sm position-relative">
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-lock"></i>
                                 </span>
@@ -53,7 +59,7 @@
                         </div>
                         <div class="mb-5">
                             <label class="form-label" for="email">Confirm password</label>
-                            <div class="input-group position-relative">
+                            <div class="input-group input-group-sm position-relative">
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-lock"></i>
                                 </span>
@@ -68,7 +74,7 @@
                             </div>
                         </div>
                         <div>
-                            <button href="#" class="btn btn-primary w-full"> Register </button>
+                            <button href="#" class="btn btn-sm btn-primary w-full"> Register </button>
                         </div>
                     </form>
                     <div class="my-6">

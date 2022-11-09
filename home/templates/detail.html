@@ -1,78 +1,42 @@
 {% extends '_base.html' %}
 {% block content %}
 
+{% include 'header.html' %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-0 py-3">
-    <div class="container-xl">
-        <!-- Logo -->
-        <a class="navbar-brand" href="#">
-            <img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" class="h-8" alt="...">
-        </a>
-        <!-- Navbar toggle -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collapse -->
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <!-- Nav -->
-            <div class="navbar-nav mx-lg-auto">
-                <a class="nav-item nav-link active" href="#" aria-current="page"> Restaurants </a>
-                <a class="nav-item nav-link" href="#"> Top picks </a>
-                <a class="nav-item nav-link" href="#"> Categories </a>
-            </div>
-            <!-- Right navigation -->
-            {% if user.is_authenticated %}
-                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Logout </a>
-                </div>
-            {% else %}
-                <div class="navbar-nav ms-lg-4">
-                    <a class="nav-item nav-link" href="#"> Sign in </a>
-                </div>
-                <!-- Action -->
-                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="#" class="btn btn-sm btn-primary w-full w-lg-auto"> Register </a>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</nav>
-    
 
 <!-- Container starts here -->
-<div class="container mt-5">
+<div class="container mt-5 px-0 mb-24">
     <!-- First row -->
     <div class="row mb-10">
         <!-- First column -->
         <div class="col-sm">
-            <img class="img-responsive" src="https://bit.ly/3CUf0rL">
+            <img class="img-responsive" src="{{ photos|random }}">
         </div>
         <!-- First column end -->
 
         <!-- Second column -->
         <div class="col-sm">
-            <h3 class="text-primary mb-3"> Ramen Grannies </h3>
+            <h3 class="text-primary mb-3"> {{ place.business_name }} </h3>
             <p class="text-black mb-3">
                 <span class="text-primary">Inspection Description:</span>
-                Ramen is a Japanese noodle dish. It consists of Chinese-style wheat noodles served in a broth; 
-                common flavors are soy sauce and miso, with typical toppings including sliced pork, nori, menma, and scallions. Ramen has its roots in Chinese noodle dishes. Wikipedia
+                {{ place.violation_description }}
             </p>
             <p class="text-black mb-3">
-                <span class="text-primary">Address:</span> 1234 Main Street, San Francisco, CA
+                <span class="text-primary">Address:</span> {{ place.address }}, San Francisco, CA
             </p>
             <p class="text-black mb-3">
-                <span class="text-primary">Inspection Date:</span> 01/01/2021
+                <span class="text-primary">Inspection Date:</span> 12/11/2017
             </p>
             <p class="text-black mb-3">
-                <span class="text-primary">Inspection Type:</span> New Ownership
+                <span class="text-primary">Inspection Type:</span> {{ place.inspection_type }}
             <p class="text-black mb-3">
-                <span class="text-primary">Phone:</span> 123-456-7890
+                <span class="text-primary">Phone:</span> {{ place.phone }}
             </p>
             <p class="text-black mb-3">
                 <span class="text-primary">Risk Category:</span> 
-                {% if risk_category == 'High Risk' %}
+                {% if place.risk_category == 'High Risk' %}
                     <span class="badge bg-danger">High Risk</span>
-                {% elif risk_category == 'Moderate Risk' %}
+                {% elif place.risk_category == 'Moderate Risk' %}
                     <span class="badge bg-warning">Moderate Risk</span>
                 {% else %}
                     <span class="badge bg-success">Low Risk</span>
@@ -80,33 +44,32 @@
             </p>
             <p class="text-black mb-3">
                 <span class="text-primary">Inspection Score:</span>
-                {% if inspection_score >= 80 %}
-                    <span class="badge bg-success">{{ inspection_score }}</span>
-                {% elif inspection_score >= 60 and inspection_score <= 80 %}
-                    <span class="badge bg-warning">{{ inspection_score }}</span>
+                {% if place.inspection_score >= 80 %}
+                    <span class="badge bg-success">{{ place.inspection_score }}</span>
+                {% elif place.inspection_score >= 60 and place.inspection_score <= 80 %}
+                    <span class="badge bg-warning">{{ place.inspection_score }}</span>
                 {% else %}
-                    <span class="badge bg-danger">{{ inspection_score }}</span>
+                    <span class="badge bg-danger">{{ place.inspection_score }}</span>
                 {% endif %}
-                <span class="badge bg-primary">90</span>
         </div>
         <!-- Second column end -->
     </div>
     <!-- First row end -->
 
     <!-- Second row -->
-    <div class="row">
+    <div class="row mb-10 justify-content-evenly">
         <div class="col-lg-12">
             <h3 class="page-header mb-5">More places around here</h3>
         </div>
         {% for food_place in food_places %}
         <div class="col-sm-3 col-xs-6">
             <div class="card " style="width: 250px">
-                <a href="">
+                <a href="{% url 'detail' place_id=food_place.id %}">
                     <img class="card-img-top" style="height: 200px; object-fit:cover;" src="{{ photos|random }}" alt="">
                 </a>
                 <div class="card-body">
                     <h5 class="card-title mb-1 text-truncate">
-                        <a href=""> {{ food_place.business_name }} </a>  
+                        <a href="{% url 'detail' place_id=food_place.id %}"> {{ food_place.business_name }} </a>  
                     </h5>
                     <p class="card-text">
                         <span class="text-primary">Score:</span> 
@@ -123,6 +86,38 @@
         {% endfor %}
     </div>
     <!-- Second row end -->
+    
+    <!-- comments -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header mb-5">Leave a comment</h3>
+        </div>
+        {% for comment in comments %}
+        <div class="col-12">
+            <div class="card my-3">
+                <div class="card-header">
+                    <span class="" style="color:#1C6BF4">{{ comment.user }}</span>
+                    <span class="badge text-black" style="background-color:#F3F4F6;">{{ comment.created_at|timesince }} ago</span>
+                </div>
+                <div class="card-body" style="background-color:#F9FAFB; font-style:italic;">
+                    <p class="card-text text-sm">{{ comment.comment }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- comments end -->
+    <!-- create comments -->
+    <form action="{% url 'add_comment' place_id=place.id %}" method="POST" class="my-3">
+        {% csrf_token %}
+        <label for="comment" class="form-label mb-3">Comment</label>
+        <div class="input-group">
+            <textarea name="comment" class="form-control custom-control" rows="3" style="resize:none"></textarea>     
+            <button type="submit" class="input-group-addon btn btn-primary">Comment</button>
+        </div>
+    </form>
+    <!-- create comments end -->
 </div>
 <!-- Container end here-->
+
 {% endblock %}

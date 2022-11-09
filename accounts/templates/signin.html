@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% include 'header.html' %}
 
 <div class="px-5 py-5 p-lg-0">
     <div class="d-flex justify-content-center">
@@ -22,7 +23,7 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <label class="form-label" for="email">Email</label>
-                            <div class="input-group position-relative">
+                            <div class="input-group input-group-sm position-relative">
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-envelope"></i>
                                 </span>
@@ -32,7 +33,7 @@
                         </div>
                         <div class="mb-5">
                             <label class="form-label" for="email">Password</label>
-                            <div class="input-group position-relative">
+                            <div class="input-group input-group-sm position-relative">
                                 <span class="input-group-text" id="">
                                     <i class="bi bi-lock"></i>
                                 </span>
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         <div>
-                            <button  type="submit" href="#" class="btn btn-primary w-full"> Sign in </button>
+                            <button  type="submit" href="#" class="btn btn-sm btn-primary w-full"> Sign in </button>
                         </div>
                     </form>
                     <div class="my-6">

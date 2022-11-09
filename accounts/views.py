@@ -48,3 +48,7 @@ def register(request):
 def logout(request):
     signout(request)
     return redirect("home")
+
+
+def profile(request):
+    return render(request, "profile.html")

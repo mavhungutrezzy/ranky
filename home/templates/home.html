@@ -3,49 +3,15 @@
 {% block content %}
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-0 py-3">
-    <div class="container-xl">
-        <!-- Logo -->
-        <a class="navbar-brand" href="#">
-            <img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" class="h-8" alt="...">
-        </a>
-        <!-- Navbar toggle -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collapse -->
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <!-- Nav -->
-            <div class="navbar-nav mx-lg-auto">
-                <a class="nav-item nav-link active" href="#" aria-current="page"> Restaurants </a>
-                <a class="nav-item nav-link" href="#"> Top picks </a>
-                <a class="nav-item nav-link" href="#"> Categories </a>
-            </div>
-            <!-- Right navigation -->
-            {% if user.is_authenticated %}
-                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="{% url 'logout' %}" class="btn btn-sm btn-primary w-full w-lg-auto"> Logout </a>
-                </div>
-            {% else %}
-                <div class="navbar-nav ms-lg-4">
-                    <a class="nav-item nav-link" href="{% url 'signin' %}"> Sign in </a>
-                </div>
-                <!-- Action -->
-                <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                    <a href="{% url 'register' %}" class="btn btn-sm btn-primary w-full w-lg-auto"> Register </a>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</nav>
+{% include 'header.html' %}
 
-<div class="container" style="margin-bottom: 80px">
+<div class="container px-0" style="margin-bottom: 80px">
 
     <!--SEARCH BOX STARTS HERE -->
     <form action="{% url 'home' %}" method="POST">
         {% csrf_token %}
         <div class="input-group mb-5">
-            <input name="search_term" type="text" class="form-control" placeholder="Search for any store nearby..">
+            <input name="search_term" id="tags" type="text" class="form-control" placeholder="Search for any store nearby..">
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="bi bi-search"></i>
             </button>
@@ -69,16 +35,16 @@
 
     
     <!--CARD ITERARION STARTS HERE -->
-    <div class="row infinite-container">
+    <div class="row infinite-container  justify-content-evenly">
         {% for food_place in food_places %}
             <div class="col-lg-3 pb-4 infinite-item">
-                <div class="card mb-5" style="width: 250px">
-                    <a href="{% url 'detail' %}">
+                <div class="card mb-5"  id="card-style" style="width: 250px">
+                    <a href="{% url 'detail' place_id=food_place.id %}">
                         <img class="card-img-top" style="height: 200px; object-fit:cover;" src="{{ photos|random }}" alt="">
                     </a>
                     <div class="card-body">
                         <h5 class="card-title mb-1 text-truncate" >
-                            <a href=""> {{ food_place.business_name }} </a>  
+                            <a href="{% url 'detail' place_id=food_place.id %}"> {{ food_place.business_name }} </a>  
                         </h5>
                         <p class="card-text">
                             <span class="text-primary">Score:</span> 
@@ -102,33 +68,78 @@
     </div>
     <!--CARD ITERARION END HERE -->
 </div>
+<!-- pagination -->
 <div class="d-flex justify-content-center" style="bottom:80px; position: relative;">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-        {% if food_places.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ food_places.previous_page_number }}">
-            <i class="bi bi-chevron-left"></i>
-            </a>
-        </li>
-        {% endif %}
-        {% for i in food_places.paginator.page_range %}
-            {% if food_places.number == i %}
-                <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% if food_places.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ food_places.previous_page_number }}">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
             {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
             {% endif %}
-        {% endfor %}
-        {% if food_places.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ food_places.next_page_number }}">
-            <i class="bi bi-chevron-right"></i>
-            </a>
-        </li>
-        {% endif %}
+
+            {% if food_places.number|add:'-4' > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ food_places.number|add:'-5' }}">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% for i in food_places.paginator.page_range %}
+                {% if food_places.number == i %}
+                    <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                    </span>
+                </li>
+                {% elif i > food_places.number|add:'-5' and i < food_places.number|add:'5' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if food_places.paginator.num_pages > food_places.number|add:'4' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ food_places.number|add:'5' }}">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% if food_places.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ food_places.next_page_number }}">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </div>
-    <script src="{% static 'js/scroll.js' %}"></script>
+
+    <script>
+        $( function() {
+                var availableTags = [
+                    {% for food_place in all_places %}
+                        "{{food_place.business_name}}",
+                    {% endfor %}
+                ];
+                $( "#tags" ).autocomplete({
+                    source: availableTags
+                });
+            } );
+    </script>
 
 {% endblock %}

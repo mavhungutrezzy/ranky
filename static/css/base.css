@@ -1,4 +1,4 @@
-.card:hover {
+#card-style:hover {
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.12) 0 4px 8px rgba(0, 0, 0, 0.6);
 }
@@ -6,3 +6,20 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.custom-search {
+    position: relative;
+  }
+  .custom-search-input {
+    width: 100%;
+    padding-right: 100px !important; 
+    box-sizing: border-box;
+  }
+  .custom-search-botton {
+    position: absolute;
+    right: 3px; 
+    top: 3px;
+    bottom: 3px;
+    line-height: 1 !important;
+    z-index: 4;
+  }
